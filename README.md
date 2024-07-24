@@ -1,19 +1,27 @@
-・MySQLで管理者データの登・
+・MySQLで管理者データの登録
+
 mysql -u root -p
+
 ・データベースの作成
+
 mysql> create database customer_management_db;
+
 Query OK, 1 row affected (0.01 sec)
 
 ・作成したデータベースにアクセス
+
 mysql> use customer_management_db;
+
 Database changed
 
 ・管理者用のテーブルを作成
+
 mysql> create table admin_tb (admin_id int(11) not null auto_increment,
     ->  name varchar(20) not null,
     -> password varchar(20) not null,
     -> primary key (admin_id)
     -> );
+
 Query OK, 0 rows affected, 1 warning (0.03 sec)
 
 ・テーブルの定義を確認
@@ -42,6 +50,8 @@ mysql> select * from admin_tb;
 
 mysql>
 ～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～
+
+
 ・顧客テーブルの作成
 $ mysql.server status
  ERROR! MySQL is not running
