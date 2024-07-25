@@ -27,7 +27,7 @@ public class Login {
 		String url = db_info.getDBinfo().get("url");
 		String user = db_info.getDBinfo().get("user");
 		String pass = db_info.getDBinfo().get("password");
-//		String url = "jdbc:mysql://localhost/customer_management_db";
+//		String url = "jdbc:mysql://localhost/customer_management_db";　
 //		String user = "root";
 //		String pass = "20240501Umonica3!!";
 
