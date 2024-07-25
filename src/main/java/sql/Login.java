@@ -10,9 +10,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;//2追加
+import java.util.List;//2追加
 
 import config.DBconfig;
 import object.Admin;
+import object.Customer;//2追加
 
 public class Login {
 	//以下のメソッド定義は、特定の管理者IDとパスワードをチェックして、適切な Admin オブジェクトを返すメソッド
@@ -78,5 +81,51 @@ public class Login {
 		}
 		// データベースから取得した値を返す
 		return admin;
+	}
+
+	//★追記（2顧客情報取得）
+	//ログイン成功後に管理者が管理する顧客情報の取得
+	public List<Customer> getCustomerInfo(String admin_id) throws FileNotFoundException {
+
+		// データベースへの接続情報をプロパティファイルから取得
+		DBconfig db_info = new DBconfig();
+		String url = db_info.getDBinfo().get("url");//dar読み込みエラー
+		String user = db_info.getDBinfo().get("user");
+		String pass = db_info.getDBinfo().get("password");
+
+		// 実行SQL
+		// admin_id(管理者ID)で該当する顧客情報を取得する
+		String customer_sql = "select * from customer_tb "
+				            + "where admin_id = ?;";
+
+		// 顧客情報のデータを格納するListを作成
+		List<Customer> cus_list = new ArrayList<Customer>();
+
+		try(Connection conn = DriverManager.getConnection(url, user, pass)){
+			PreparedStatement stmt = conn.prepareStatement(customer_sql);
+
+			stmt.setString(1, admin_id);
+			ResultSet rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				// 顧客情報用のオブジェクトを作成
+				Customer cus_info = new Customer();
+				// オブジェクトにデータを一時格納
+				cus_info.setCustomer_id(rs.getInt("customer_id"));
+				cus_info.setAdmin_id(rs.getInt("admin_id"));
+				cus_info.setName(rs.getString("name"));
+				cus_info.setAddress(rs.getString("address"));
+				cus_info.setRegistered_time(rs.getDate("registered_time"));
+				cus_info.setUpdated_time(rs.getDate("updated_time"));
+
+				// オブジェクトに格納された
+				// 顧客情報用のデータをリストに加える
+				cus_list.add(cus_info);
+			}
+		} catch (SQLException e) {
+			System.out.println("データベースとの接続を閉じます");
+			e.printStackTrace();
+		}
+		return cus_list;
 	}
 }
