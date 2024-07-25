@@ -55,7 +55,7 @@ public class Login {
 			// 変数login_sqlの二番目の?に引数のpasswordをセット
 			stmt.setString(2, password);
 
-			//▶stmt は PreparedStatement オブジェクトの変数名である。
+			//▶stmt は PreparedStatement オブジェクトの変数名である  。
 			/*?executeQuery() メソッドを使って、準備された login_sql を実行し、(login_sql という変数に、SQLクエリとして "SELECT * FROM admin_tb WHERE admin_id = ? AND password = ?;" という文字列を格納しているんや。）
 			 *指定された admin_id と password に基づくデータをデータベースから取得するんや。
 			 *結果格納する ResultSet オブジェクト rs に格納され、これを使ってデータを取り出すことができるんや。
